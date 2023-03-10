@@ -57,6 +57,7 @@ class DetailsHeroViewController: UIViewController {
     var randomHeroesArray: [HeroMarvelModel] = []
     var heroesArray = [HeroMarvelModel]()
     
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,15 +68,16 @@ class DetailsHeroViewController: UIViewController {
         setConstraints()
     }
     
+    //MARK: - Methods
     private func setupViews() {
         view.backgroundColor = .black
-
+        
         view.addSubview(scrollView)
         view.addSubview(imageHeroView)
         view.addSubview(detailTextLabel)
         view.addSubview(exploreMoreLabel)
         view.addSubview(randomCollectionHeroCell)
-
+        
         navigationController?.navigationBar.tintColor = .white
         if #available(iOS 13.0, *) {
             navigationController?.navigationBar.standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -106,6 +108,7 @@ class DetailsHeroViewController: UIViewController {
             }
         }
     }
+    
     func unique<S : Sequence, T: Hashable>(source: S) -> [T] where S.Iterator.Element == T {
         var buffer = [T]()
         var added = Set<T>()
@@ -135,7 +138,6 @@ class DetailsHeroViewController: UIViewController {
 }
 
 // MARK: - UICollectionViewDataSource
-
 extension DetailsHeroViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         randomHeroesArray.count
@@ -153,11 +155,8 @@ extension DetailsHeroViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionViewDelegate
-
 extension DetailsHeroViewController: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let heroModel = randomHeroesArray[indexPath.row]
         
         let detailHeroViewController = DetailsHeroViewController()
@@ -168,7 +167,6 @@ extension DetailsHeroViewController: UICollectionViewDelegate {
 }
 
 extension DetailsHeroViewController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: collectionView.frame.height,
                height: collectionView.frame.height)
@@ -176,30 +174,27 @@ extension DetailsHeroViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - setConstraint
-
 extension DetailsHeroViewController {
-    
     private func setConstraints() {
-        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        
+            
             imageHeroView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             imageHeroView.widthAnchor.constraint(equalToConstant: view.frame.width),
             imageHeroView.heightAnchor.constraint(equalToConstant: view.frame.width),
-        
+            
             detailTextLabel.topAnchor.constraint(equalTo: imageHeroView.bottomAnchor, constant: 16),
             detailTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             detailTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        
+            
             exploreMoreLabel.topAnchor.constraint(equalTo: detailTextLabel.bottomAnchor, constant: 16),
             exploreMoreLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             exploreMoreLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             exploreMoreLabel.bottomAnchor.constraint(equalTo: randomCollectionHeroCell.topAnchor, constant: -5),
-        
+            
             randomCollectionHeroCell.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             randomCollectionHeroCell.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             randomCollectionHeroCell.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),

@@ -21,16 +21,14 @@ class MainViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
- 
+    
     private let searchController = UISearchController()
-    
     private var heroesArray = [HeroMarvelModel]()
-    
     private let idCollectionView = "idCollectionView"
-    
     private var isFiltred = false
     private var filtredArray = [IndexPath]()
     
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,8 +39,8 @@ class MainViewController: UIViewController {
         setConstraints()
     }
     
+    //MARK: - Methods
     private func getHeroArray() {
-        
         NetworkDataFetch.shared.fetchHero { [weak self] heroMarvelArray, error in
             guard let self = self else {return}
             if error != nil {
@@ -75,6 +73,7 @@ class MainViewController: UIViewController {
         view.addSubview(heroCollectionView)
         heroCollectionView.register(HeroCollectionViewCell.self, forCellWithReuseIdentifier: idCollectionView)
     }
+    
     private func setDelegate() {
         heroCollectionView.dataSource = self
         heroCollectionView.delegate = self
@@ -84,7 +83,6 @@ class MainViewController: UIViewController {
     }
     
     private func setAlphaForCell(alpha: Double) {
-
         heroCollectionView.visibleCells.forEach { cell in
             cell.alpha = alpha
         }
@@ -115,25 +113,20 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: idCollectionView, for: indexPath) as? HeroCollectionViewCell else { return UICollectionViewCell() }
-        
         let heroModel = heroesArray[indexPath.row]
         cell.cellConfigure(model: heroModel)
-        
         return cell
     }
 }
 
 // MARK: - UICollectionViewDelegate
-
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let heroModel = heroesArray[indexPath.row]
         let detailHeroViewController = DetailsHeroViewController()
-        
         detailHeroViewController.heroModel = heroModel
         detailHeroViewController.heroesArray = heroesArray
         navigationController?.pushViewController(detailHeroViewController, animated: true)
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -144,7 +137,6 @@ extension MainViewController: UICollectionViewDelegate {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: collectionView.frame.width / 3.02,
@@ -153,7 +145,6 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - UISerchResultsUpdating
-
 extension MainViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {return}
@@ -162,27 +153,25 @@ extension MainViewController: UISearchResultsUpdating {
     
     private func filterContentForSearchText(_ searchText: String) {
         for (value, hero) in heroesArray.enumerated() {
-                let indexPath: IndexPath = [0, value]
-                guard let cell = heroCollectionView.cellForItem(at: indexPath) else { return }
-        
-        if hero.name.lowercased().contains(searchText.lowercased()) {
-            filtredArray.append(indexPath)
-            cell.alpha = 1
-        } else {
-            cell.alpha = 0.3
-        }
+            let indexPath: IndexPath = [0, value]
+            guard let cell = heroCollectionView.cellForItem(at: indexPath) else { return }
+            
+            if hero.name.lowercased().contains(searchText.lowercased()) {
+                filtredArray.append(indexPath)
+                cell.alpha = 1
+            } else {
+                cell.alpha = 0.3
+            }
         }
     }
 }
 
 // MARK: - UISearchControllerDelegate
-
 extension MainViewController: UISearchControllerDelegate {
     func didPresentSearchController(_ searchController: UISearchController) {
         isFiltred = true
         setAlphaForCell(alpha: 0.3)
     }
-    
     func didDismissSearchController(_ searchController: UISearchController) {
         isFiltred = false
         setAlphaForCell(alpha: 1)
@@ -193,10 +182,9 @@ extension MainViewController: UISearchControllerDelegate {
 
 extension MainViewController {
     private func setConstraints() {
-        
         NSLayoutConstraint.activate([
             heroCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            heroCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor), 
+            heroCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             heroCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             heroCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])

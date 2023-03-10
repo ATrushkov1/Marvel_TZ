@@ -15,6 +15,7 @@ class RandomCollectionHeroViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    //MARK: - LifeCycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -22,6 +23,7 @@ class RandomCollectionHeroViewCell: UICollectionViewCell {
         setConstraints()
     }
     
+    //MARK: - Methods
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -40,15 +42,13 @@ class RandomCollectionHeroViewCell: UICollectionViewCell {
             case .success(let data):
                 let image = UIImage(data: data)
                 self.heroImageView.image = image
-            case .failure(_): 
+            case .failure(_):
                 print("AlertHere")
             }
         }
     }
     
-    
     private func setConstraints() {
-        
         NSLayoutConstraint.activate([
             heroImageView.topAnchor.constraint(equalTo: topAnchor),
             heroImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -56,5 +56,4 @@ class RandomCollectionHeroViewCell: UICollectionViewCell {
             heroImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
 }

@@ -14,7 +14,7 @@ class NetworkRequest {
     private init() {}
     
     func requestData(completion: @escaping (Result<Data, Error>) -> Void) {
-        
+
         let urlString = "https://static.upstarts.work/tests/marvelgram/klsZdDg50j2.json"
         guard let url = URL(string: urlString) else {return}
         

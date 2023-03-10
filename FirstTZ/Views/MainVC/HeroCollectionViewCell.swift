@@ -13,10 +13,10 @@ class HeroCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
         return imageView
     }()
     
+    //MARK: - LifeCycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -25,6 +25,7 @@ class HeroCollectionViewCell: UICollectionViewCell {
         
     }
     
+    //MARK: - Methods
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -51,7 +52,6 @@ class HeroCollectionViewCell: UICollectionViewCell {
     
     // MARK: - setConstraints
     private func setConstraints() {
-        
         NSLayoutConstraint.activate([
             heroImageView.topAnchor.constraint(equalTo: topAnchor),
             heroImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -59,6 +59,5 @@ class HeroCollectionViewCell: UICollectionViewCell {
             heroImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
 }
 
